@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.yonasadiel.cerberus">
+
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.PHONE_STATE_STATE" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
+
+    <application
+        android:name=".LockApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/cerberus"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.yonasadiel.cerberus.LockScreenActivity"
+            android:showOnLockScreen="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/AppThemeNoAction">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name="com.yonasadiel.cerberus.CerberusActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.yonasadiel.cerberus.utils.LockScreenService" >
+        </service>
+
+        <service
+            android:name="com.yonasadiel.cerberus.utils.LockAccessibilityService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibilityservice"/>
+        </service>
+    </application>
+
+
+</manifest>

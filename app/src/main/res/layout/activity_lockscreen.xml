@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yonasadiel.cerberus.LockScreenActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:src="@drawable/cerberus"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:id="@+id/caption"
+            android:textAlignment="center"
+            android:text="Cerberus is guardians of the gate to Hell"/>
+
+        <GridLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/unlock_button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:text="1"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_2"
+                style="@style/LockScreenButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/unlock_button_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="3"
+                android:text="3"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:text="4"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="2"
+                android:text="5"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="3"
+                android:text="6"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:text="7"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="2"
+                android:text="8"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="3"
+                android:text="9"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_space"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:text=" "
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="2"
+                android:text="0"
+                style="@style/LockScreenButton"/>
+
+            <Button
+                android:id="@+id/unlock_button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="3"
+                android:text="⌫"
+                style="@style/LockScreenButton"/>
+        </GridLayout>
+    </LinearLayout>
+</RelativeLayout>
