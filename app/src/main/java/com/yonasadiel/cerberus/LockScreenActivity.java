@@ -43,21 +43,21 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
     List<String> buttonTextList = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 
     private Handler handler;
-    Runnable lockScreenTask = new Runnable() {
-        @Override
-        public void run() {
-            //do work
-            DevicePolicyManager manager = ((DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE));
-            manager.lockNow();
-        }
-    };
+    Runnable lockScreenTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
 
+        this.lockScreenTask = new LockPhone(this);
         this.captionTextView = findViewById(R.id.caption);
+
+        this.resetProblem();
+        handler = new Handler(Looper.getMainLooper());
+    }
+
+    private void resetProblem() {
         int a = (int) (Math.random() * 100000);
         int b = (int) (Math.random() * 100000);
         int c = (int) (Math.random() * 100000);
@@ -70,8 +70,6 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
             this.registerButton(buttonIdList.get(i), buttonTextList.get(i));
         }
         findViewById(R.id.unlock_button_delete).setOnClickListener(new UnlockButtonOnClickListener(this, "<"));
-
-        handler = new Handler(Looper.getMainLooper());
     }
 
     private void registerButton(int id, String num) {
@@ -112,6 +110,21 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
 
     public void onClickButton(String num) {
         this.addAnswer(num);
+    }
+
+    private class LockPhone implements Runnable {
+        private LockScreenActivity activity;
+
+        LockPhone(LockScreenActivity activity) {
+            this.activity = activity;
+        }
+
+        @Override
+        public void run() {
+            DevicePolicyManager manager = ((DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE));
+            manager.lockNow();
+            this.activity.resetProblem();
+        }
     }
 
     private class UnlockButtonOnClickListener implements View.OnClickListener {
