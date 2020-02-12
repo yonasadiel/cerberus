@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context="com.yonasadiel.cerberus.LockScreenActivity">
 
     <LinearLayout
@@ -16,6 +17,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_width="175dp"
             android:layout_height="175dp"
+            android:tint="@color/colorAccent"
             android:src="@drawable/cerberus"/>
 
         <TextView
@@ -24,6 +26,7 @@
             android:textSize="12sp"
             android:id="@+id/caption"
             android:textAlignment="center"
+            android:textColor="@color/colorAccent"
             android:text="Cerberus is guardians of the gate to Hell"/>
 
         <GridLayout

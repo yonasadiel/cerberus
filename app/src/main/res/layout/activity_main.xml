@@ -16,6 +16,18 @@
         android:layout_height="wrap_content"
         android:text="Please enable all permissions for this apps."/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_apps_detail_button"
+        android:text="Open Application Detail"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/open_device_administration_button"
+        android:text="Open Device Administration"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

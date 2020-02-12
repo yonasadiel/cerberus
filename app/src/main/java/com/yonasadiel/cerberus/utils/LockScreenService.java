@@ -48,7 +48,7 @@ public class LockScreenService extends Service {
         super.onCreate();
         mContext = getApplicationContext();
         mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        showNotification();
+//        showNotification();
     }
 
     @Override

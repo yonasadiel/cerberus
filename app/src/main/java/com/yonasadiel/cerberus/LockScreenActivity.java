@@ -1,12 +1,20 @@
 package com.yonasadiel.cerberus;
 
+import android.app.admin.DevicePolicyManager;
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 interface UnlockButtonCaller {
@@ -18,6 +26,31 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
     private String problemText = "";
     private TextView captionTextView;
     private String answer = "";
+    private int answerLength = 10;
+
+    List<Integer> buttonIdList = Arrays.asList(
+            R.id.unlock_button_1,
+            R.id.unlock_button_2,
+            R.id.unlock_button_3,
+            R.id.unlock_button_4,
+            R.id.unlock_button_5,
+            R.id.unlock_button_6,
+            R.id.unlock_button_7,
+            R.id.unlock_button_8,
+            R.id.unlock_button_9,
+            R.id.unlock_button_0
+    );
+    List<String> buttonTextList = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
+
+    private Handler handler;
+    Runnable lockScreenTask = new Runnable() {
+        @Override
+        public void run() {
+            //do work
+            DevicePolicyManager manager = ((DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE));
+            manager.lockNow();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,23 +58,26 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
         setContentView(R.layout.activity_lockscreen);
 
         this.captionTextView = findViewById(R.id.caption);
-        this.problemText = ((int) (Math.random() * 100000))
-                + " + " + ((int) (Math.random() * 100000))
-                + " x " + ((int) (Math.random() * 100000));
+        int a = (int) (Math.random() * 100000);
+        int b = (int) (Math.random() * 100000);
+        int c = (int) (Math.random() * 100000);
+        this.problemText = a + " + " + b + " x " + c;
+        this.answerLength = String.valueOf(a + b * c).length();
         this.answer = "";
         this.setProblemText();
-
-        findViewById(R.id.unlock_button_1).setOnClickListener(new UnlockButtonOnClickListener(this, "1"));
-        findViewById(R.id.unlock_button_2).setOnClickListener(new UnlockButtonOnClickListener(this, "2"));
-        findViewById(R.id.unlock_button_3).setOnClickListener(new UnlockButtonOnClickListener(this, "3"));
-        findViewById(R.id.unlock_button_4).setOnClickListener(new UnlockButtonOnClickListener(this, "4"));
-        findViewById(R.id.unlock_button_5).setOnClickListener(new UnlockButtonOnClickListener(this, "5"));
-        findViewById(R.id.unlock_button_6).setOnClickListener(new UnlockButtonOnClickListener(this, "6"));
-        findViewById(R.id.unlock_button_7).setOnClickListener(new UnlockButtonOnClickListener(this, "7"));
-        findViewById(R.id.unlock_button_8).setOnClickListener(new UnlockButtonOnClickListener(this, "8"));
-        findViewById(R.id.unlock_button_9).setOnClickListener(new UnlockButtonOnClickListener(this, "9"));
-        findViewById(R.id.unlock_button_0).setOnClickListener(new UnlockButtonOnClickListener(this, "0"));
+        Collections.shuffle(buttonIdList);
+        for (int i = 0; i < 10; i++) {
+            this.registerButton(buttonIdList.get(i), buttonTextList.get(i));
+        }
         findViewById(R.id.unlock_button_delete).setOnClickListener(new UnlockButtonOnClickListener(this, "<"));
+
+        handler = new Handler(Looper.getMainLooper());
+    }
+
+    private void registerButton(int id, String num) {
+        Button button = findViewById(id);
+        button.setText(num);
+        button.setOnClickListener(new UnlockButtonOnClickListener(this, num));
     }
 
     private void setProblemText() {
@@ -49,14 +85,13 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
         textBuilder.append(this.problemText);
         textBuilder.append(" = ");
         textBuilder.append(answer);
-        for (int i = answer.length(); i < 10; i++) {
+        for (int i = answer.length(); i < this.answerLength; i++) {
             textBuilder.append("_");
         }
         this.captionTextView.setText(textBuilder.toString());
     }
 
     private void addAnswer(String num) {
-        Log.d("CerberusLog", this.answer + " " + num);
         if (num.equals("<")) {
             if (this.answer.length() > 0) {
                 this.answer = this.answer.substring(0, this.answer.length() - 1);
@@ -64,10 +99,10 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
             }
         } else {
             this.answer = this.answer + num;
-            if (this.answer.length() == 10 && this.answer.charAt(this.answer.length() - 1) == '9' && this.answer.charAt(0) == '9') {
+            if (this.answer.length() == this.answerLength && this.answer.charAt(0) == '5' && this.answer.charAt(1) == '9') {
                 finish();
             } else {
-                if (this.answer.length() >= 10) {
+                if (this.answer.length() >= this.answerLength) {
                     this.answer = "";
                 }
                 this.setProblemText();
@@ -102,6 +137,18 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         super.onAttachedToWindow();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        handler.postDelayed(lockScreenTask, 10 * 1000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacks(lockScreenTask);
     }
 
     @Override
