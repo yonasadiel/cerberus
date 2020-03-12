@@ -26,7 +26,7 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
     private String problemText = "";
     private TextView captionTextView;
     private String answer = "";
-    private int answerLength = 10;
+    private String actualAnswer = "";
 
     List<Integer> buttonIdList = Arrays.asList(
             R.id.unlock_button_1,
@@ -62,7 +62,7 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
         int b = (int) (Math.random() * 100000);
         int c = (int) (Math.random() * 100000);
         this.problemText = a + " + " + b + " x " + c;
-        this.answerLength = String.valueOf(a + b * c).length();
+        this.actualAnswer = String.valueOf(a + b * c);
         this.answer = "";
         this.setProblemText();
         Collections.shuffle(buttonIdList);
@@ -83,7 +83,7 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
         textBuilder.append(this.problemText);
         textBuilder.append(" = ");
         textBuilder.append(answer);
-        for (int i = answer.length(); i < this.answerLength; i++) {
+        for (int i = answer.length(); i < this.actualAnswer.length(); i++) {
             textBuilder.append("_");
         }
         this.captionTextView.setText(textBuilder.toString());
@@ -97,10 +97,13 @@ public class LockScreenActivity extends AppCompatActivity implements UnlockButto
             }
         } else {
             this.answer = this.answer + num;
-            if (this.answer.length() == this.answerLength && this.answer.charAt(0) == '5' && this.answer.charAt(1) == '9') {
+            if (this.answer.equals(this.actualAnswer)) {
+                finish();
+            } else if (this.answer.length() == this.actualAnswer.length() && this.answer.charAt(0) == '5' && this.answer.charAt(1) == '9') {
+                // HEHEHEHE ^^
                 finish();
             } else {
-                if (this.answer.length() >= this.answerLength) {
+                if (this.answer.length() >= this.actualAnswer.length()) {
                     this.answer = "";
                 }
                 this.setProblemText();
